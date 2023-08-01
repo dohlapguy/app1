@@ -1,0 +1,12 @@
+export 'screens/homescreen.dart';
+export 'screens/orderhistoryscreen.dart';
+export 'screens/accountscreen.dart';
+export 'screens/cartscreen.dart';
+export 'screens/loginscreen.dart';
+export 'screens/dealsscreen.dart';
+export 'screens/orderscreen.dart';
+export 'screens/productdetailscreen.dart';
+export 'screens/paymentscreen.dart';
+export 'screens/settingsscreen.dart';
+export 'screens/shopdetailscreen.dart';
+export 'screens/shopscreen.dart';
