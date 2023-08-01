@@ -30,9 +30,9 @@ class ProductRepo {
           _productsCollection.where('shopId', isEqualTo: shopId).limit(limit);
 
       if (startAfterId != null) {
-        final QuerySnapshot startAfter =
-            await _productsCollection.where('shopId', isEqualTo: shopId).get();
-        final doc = startAfter.docs.first;
+        final startAfter = await _productsCollection.doc(startAfterId).get();
+        print(startAfter);
+        final doc = startAfter;
         query = query.startAfterDocument(doc);
       }
 
@@ -42,7 +42,6 @@ class ProductRepo {
       for (QueryDocumentSnapshot doc in snapshot.docs) {
         products.add(ProductModel.fromSnapshot(doc));
       }
-
       return products;
     } catch (e) {
       // Handle any errors that might occur during the fetching process

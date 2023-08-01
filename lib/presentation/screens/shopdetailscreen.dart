@@ -1,8 +1,10 @@
+import 'package:app1/business_logic/blocs/product_bloc/product_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/blocs/shop_detail_bloc/shop_detail_bloc.dart';
 import '../../data/models.dart';
+import '../widgets.dart';
 
 class ShopDetailScreen extends StatefulWidget {
   final String shopId;
@@ -13,13 +15,14 @@ class ShopDetailScreen extends StatefulWidget {
 }
 
 class _ShopDetailScreenState extends State<ShopDetailScreen> {
-  final _scrollController = ScrollController();
+  // final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     context.read<ShopDetailBloc>().add(FetchShopDetails(shopId: widget.shopId));
-    _scrollController.addListener(_onScroll);
+    context.read<ProductBloc>().add(FetchProductsOfShop(shopId: widget.shopId));
+    // _scrollController.addListener(_onScroll);
   }
 
   @override
@@ -38,14 +41,8 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
         builder: (context, state) {
           switch (state.runtimeType) {
             case ShopDetailLoadedState:
-              final currentState = state as ShopDetailLoadedState;
-              final shop = currentState.shop;
-              final products = currentState.products;
-
-              if (currentState.products.isEmpty) {
-                return const Center(child: Text('no posts'));
-              }
-
+              final currentShopState = state as ShopDetailLoadedState;
+              final shop = currentShopState.shop;
               return Column(
                 children: [
                   SingleChildScrollView(
@@ -86,24 +83,8 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
                       ],
                     ),
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Number of columns in the grid
-                        crossAxisSpacing: 8.0, // Spacing between columns
-                        mainAxisSpacing: 8.0, // Spacing between rows
-                      ),
-                      itemCount: currentState.hasReachMax
-                          ? currentState.products.length
-                          : currentState.products.length + 1,
-                      controller: _scrollController,
-                      itemBuilder: (BuildContext context, int index) {
-                        return index >= products.length
-                            ? const BottomLoader()
-                            : ProductTile(product: products[index]);
-                      },
-                    ),
+                  ShopProductsView(
+                    shopId: widget.shopId,
                   )
                 ],
               );
@@ -115,75 +96,27 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
     );
   }
 
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
+//   @override
+//   void dispose() {
+//     _scrollController
+//       ..removeListener(_onScroll)
+//       ..dispose();
 
-  void _onScroll() {
-    if (_isBottom) {
-      context
-          .read<ShopDetailBloc>()
-          .add(FetchShopDetails(shopId: widget.shopId));
-    }
-  }
+//     super.dispose();
+//   }
 
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
-  }
-}
+//   void _onScroll() {
+//     if (_isBottom) {
+//       context
+//           .read<ProductBloc>()
+//           .add(FetchProductsOfShop(shopId: widget.shopId));
+//     }
+//   }
 
-class BottomLoader extends StatelessWidget {
-  const BottomLoader({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: SizedBox(
-        height: 24,
-        width: 24,
-        child: CircularProgressIndicator(strokeWidth: 1.5),
-      ),
-    );
-  }
-}
-
-class ProductTile extends StatelessWidget {
-  final ProductModel product;
-
-  const ProductTile({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2.0,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.network(
-            product.thumbnail,
-            height: 100,
-            width: 100,
-            fit: BoxFit.cover,
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            product.title,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 4.0),
-          Text(
-            '\$${product.price.toStringAsFixed(2)}',
-            style: TextStyle(color: Colors.grey),
-          ),
-        ],
-      ),
-    );
-  }
+//   bool get _isBottom {
+//     if (!_scrollController.hasClients) return false;
+//     final maxScroll = _scrollController.position.maxScrollExtent;
+//     final currentScroll = _scrollController.offset;
+//     return currentScroll >= (maxScroll * 0.9);
+//   }
 }

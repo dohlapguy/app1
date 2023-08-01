@@ -23,38 +23,17 @@ class ShopDetailBloc extends Bloc<ShopDetailEvent, ShopDetailState> {
 
   Future<FutureOr<void>> _getShopDetail(
       FetchShopDetails event, Emitter<ShopDetailState> emit) async {
-    print(state.runtimeType);
-    if (state is ShopDetailLoadedState) {
-      final currentState = state as ShopDetailLoadedState;
-      if (currentState.hasReachMax) return null;
-      try {
-        final shop = await shopRepo.getShopDetails(event.shopId);
-        final products = await productRepo.getProductsOfShop(event.shopId,
-            startAfterId: currentState.products.last.id);
-        if (shop != null) {
-          products.isEmpty
-              ? emit(currentState.copyWith(hasReachMax: true))
-              : emit(currentState.copyWith(
-                  products: List.of(currentState.products)..addAll(products)));
-        } else {
-          emit(const ShopDetailErrorState('Shop not found.'));
-        }
-      } catch (e) {
-        emit(ShopDetailErrorState('Error getting shop: $e'));
+    try {
+      emit(ShopDetailLoadingState());
+      final shop = await shopRepo.getShopDetails(event.shopId);
+      final products = await productRepo.getProductsOfShop(event.shopId);
+      if (shop != null) {
+        emit(ShopDetailLoadedState(shop));
+      } else {
+        emit(const ShopDetailErrorState('Shop not found.'));
       }
-    } else {
-      try {
-        emit(ShopDetailLoadingState());
-        final shop = await shopRepo.getShopDetails(event.shopId);
-        final products = await productRepo.getProductsOfShop(event.shopId);
-        if (shop != null) {
-          emit(ShopDetailLoadedState(shop, products, false));
-        } else {
-          emit(const ShopDetailErrorState('Shop not found.'));
-        }
-      } catch (e) {
-        emit(ShopDetailErrorState('Error getting shop: $e'));
-      }
+    } catch (e) {
+      emit(ShopDetailErrorState('Error getting shop: $e'));
     }
   }
 }

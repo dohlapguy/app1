@@ -44,10 +44,6 @@ class MainApp extends StatelessWidget {
             ),
           ),
           BlocProvider(
-            create: (context) => ProductBloc(
-                productRepo: RepositoryProvider.of<ProductRepo>(context)),
-          ),
-          BlocProvider(
             create: (context) =>
                 ShopBloc(shopRepo: RepositoryProvider.of<ShopRepo>(context)),
           ),

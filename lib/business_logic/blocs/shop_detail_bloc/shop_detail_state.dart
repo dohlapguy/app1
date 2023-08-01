@@ -12,23 +12,17 @@ class ShopDetailInitial extends ShopDetailState {}
 
 class ShopDetailLoadedState extends ShopDetailState {
   final ShopModel shop;
-  final List<ProductModel> products;
-  final bool hasReachMax;
 
-  const ShopDetailLoadedState(this.shop, this.products, this.hasReachMax);
+  const ShopDetailLoadedState(this.shop);
 
   @override
   List<Object> get props => [shop];
 
   ShopDetailLoadedState copyWith({
     ShopModel? shop,
-    List<ProductModel>? products,
-    bool? hasReachMax,
   }) {
     return ShopDetailLoadedState(
       shop ?? this.shop,
-      products ?? this.products,
-      hasReachMax ?? this.hasReachMax,
     );
   }
 }

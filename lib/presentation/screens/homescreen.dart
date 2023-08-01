@@ -1,7 +1,7 @@
 import 'package:app1/business_logic/blocs/auth_bloc/auth_bloc.dart';
 import 'package:app1/business_logic/blocs/product_bloc/product_bloc.dart';
 import 'package:app1/presentation/routes/route_constants.dart';
-import 'package:app1/presentation/widgets/shopsview.dart';
+import 'package:app1/presentation/widgets/shopview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Trigger the event when the screen is built
     BlocProvider.of<AuthBloc>(context).add(CheckAuthStatus());
-    BlocProvider.of<ProductBloc>(context).add(FetchProducts());
     BlocProvider.of<ShopBloc>(context).add(FetchShopsEvent());
   }
 

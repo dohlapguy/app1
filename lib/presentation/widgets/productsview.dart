@@ -14,7 +14,7 @@ class ProductView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProductBloc, ProductState>(
       builder: (context, state) {
-        if (state is ProductSuccessState) {
+        if (state.status == ProductStatus.success) {
           return ListView.builder(
             itemCount: state.products.length,
             itemBuilder: (context, index) {
@@ -22,7 +22,7 @@ class ProductView extends StatelessWidget {
               return ProductTile(product: product);
             },
           );
-        } else if (state is ProductErrorState) {
+        } else if (state.status == ProductStatus.failure) {
           return const Center(
             child: Text('Error'),
           );
@@ -37,18 +37,35 @@ class ProductView extends StatelessWidget {
 }
 
 class ProductTile extends StatelessWidget {
-  const ProductTile({
-    super.key,
-    required this.product,
-  });
-
   final ProductModel product;
+
+  const ProductTile({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(product.title),
-      subtitle: Text(product.description),
+    return Card(
+      elevation: 2.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.network(
+            product.thumbnail,
+            height: 100,
+            width: 100,
+            fit: BoxFit.cover,
+          ),
+          SizedBox(height: 8.0),
+          Text(
+            product.title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 4.0),
+          Text(
+            '\$${product.price.toStringAsFixed(2)}',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      ),
     );
   }
 }

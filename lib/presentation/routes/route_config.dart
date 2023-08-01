@@ -1,3 +1,4 @@
+import 'package:app1/business_logic/blocs/product_bloc/product_bloc.dart';
 import 'package:app1/data/repo.dart';
 import 'package:app1/presentation/screens/mock/mockscreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +31,19 @@ class Routes {
         name: RouteConstants.shopDetailRoute,
         builder: (context, state) {
           final shopId = state.pathParameters['shopId'] as String;
-          return BlocProvider(
-            create: (context) => ShopDetailBloc(
-                shopRepo: RepositoryProvider.of<ShopRepo>(context),
-                productRepo: RepositoryProvider.of<ProductRepo>(context)),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => ShopDetailBloc(
+                    shopRepo: RepositoryProvider.of<ShopRepo>(context),
+                    productRepo: RepositoryProvider.of<ProductRepo>(context)),
+              ),
+              BlocProvider(
+                create: (context) => ProductBloc(
+                    shopRepo: RepositoryProvider.of<ShopRepo>(context),
+                    productRepo: RepositoryProvider.of<ProductRepo>(context)),
+              ),
+            ],
             child: ShopDetailScreen(shopId: shopId),
           );
         },
