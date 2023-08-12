@@ -7,8 +7,8 @@ import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
 import '../../../data/models/productmodel.dart';
 
-part 'product_event.dart';
-part 'product_state.dart';
+part 'product_list_event.dart';
+part 'product_list_state.dart';
 
 const throttleDuration = Duration(milliseconds: 100);
 
@@ -18,19 +18,20 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
   };
 }
 
-class ProductBloc extends Bloc<ProductEvent, ProductState> {
-  ProductBloc({required this.shopRepo, required this.productRepo})
-      : super(const ProductState()) {
+class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
+  ProductListBloc({required this.shopRepo, required this.productRepo})
+      : super(const ProductListState()) {
     on<FetchProductsOfShop>(
       _fetchProductsOfShop,
       transformer: throttleDroppable(throttleDuration),
     );
+    on<RefreshProductList>(_refreshProductList);
   }
   final ProductRepo productRepo;
   final ShopRepo shopRepo;
 
   Future<void> _fetchProductsOfShop(
-      FetchProductsOfShop event, Emitter<ProductState> emit) async {
+      FetchProductsOfShop event, Emitter<ProductListState> emit) async {
     if (state.hasReachedMax) return;
     try {
       if (state.status == ProductStatus.initial) {
@@ -59,10 +60,21 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    // Close any resources like stream controllers here
-    // Call the super close method to complete the process
-    return super.close();
+  Future<void> _refreshProductList(
+      RefreshProductList event, Emitter<ProductListState> emit) async {
+    emit(state.copyWith(status: ProductStatus.isloading));
+    try {
+      final products = await productRepo.getProductsOfShop(event.shopId);
+      emit(
+        state.copyWith(
+          status: ProductStatus.success,
+          products: products,
+          hasReachedMax: false,
+        ),
+      );
+    } on Exception catch (e) {
+      // TODO
+      print(e);
+    }
   }
 }

@@ -1,9 +1,10 @@
-import 'package:app1/business_logic/blocs/product_bloc/product_bloc.dart';
-import 'package:app1/data/repo.dart';
-import 'package:app1/presentation/screens/mock/mockscreen.dart';
+import '../../business_logic/blocs/product_detail_bloc/product_detail_bloc.dart';
+import '../../data/repo.dart';
+import '../screens/mock/mockscreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../business_logic/blocs/shop_detail_bloc/shop_detail_bloc.dart';
+import '../../business_logic/blocs/product_list_bloc/product_list_bloc.dart';
 import '../screens.dart';
 import 'route_constants.dart';
 import 'package:go_router/go_router.dart';
@@ -27,10 +28,10 @@ class Routes {
         builder: (context, state) => const ShopScreen(),
       ),
       GoRoute(
-        path: "/shop_details/:shopId",
+        path: "/shop_detail/:shop_id",
         name: RouteConstants.shopDetailRoute,
         builder: (context, state) {
-          final shopId = state.pathParameters['shopId'] as String;
+          final shopId = state.pathParameters['shop_id']!;
           return MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -39,7 +40,7 @@ class Routes {
                     productRepo: RepositoryProvider.of<ProductRepo>(context)),
               ),
               BlocProvider(
-                create: (context) => ProductBloc(
+                create: (context) => ProductListBloc(
                     shopRepo: RepositoryProvider.of<ShopRepo>(context),
                     productRepo: RepositoryProvider.of<ProductRepo>(context)),
               ),
@@ -74,9 +75,16 @@ class Routes {
         builder: (context, state) => const PaymentScreen(),
       ),
       GoRoute(
-        path: "/product_details",
+        path: "/product_details/:product_id",
         name: RouteConstants.productDetailRoute,
-        builder: (context, state) => const ProductScreen(),
+        builder: (context, state) {
+          final productId = state.pathParameters['product_id'];
+          return BlocProvider(
+            create: (context) => ProductDetailBloc(
+                productRepo: RepositoryProvider.of<ProductRepo>(context)),
+            child: ProductScreen(productId: productId!),
+          );
+        },
       ),
       GoRoute(
         path: "/settings",

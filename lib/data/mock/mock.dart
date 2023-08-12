@@ -3,6 +3,32 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
 
+final CollectionReference productsCollection =
+    FirebaseFirestore.instance.collection('products');
+final CollectionReference shopsCollection =
+    FirebaseFirestore.instance.collection('shops');
+
+Future<void> updateShopNamesForAllProducts() async {
+  try {
+    QuerySnapshot productsQuery = await productsCollection.get();
+    for (QueryDocumentSnapshot productDoc in productsQuery.docs) {
+      String productId = productDoc.id;
+      String shopId = productDoc['shopId'];
+
+      DocumentSnapshot shopSnapshot = await shopsCollection.doc(shopId).get();
+      if (shopSnapshot.exists) {
+        String shopName = shopSnapshot['title'];
+        await productsCollection.doc(productId).update({'shopName': shopName});
+        print('Updated shopName for product $productId');
+      } else {
+        print('Shop not found with shopId $shopId for product $productId');
+      }
+    }
+  } catch (e) {
+    print('Error updating shopNames for products: $e');
+  }
+}
+
 List<Map<String, dynamic>> mocks = [
   {
     'title': 'FashionHub',

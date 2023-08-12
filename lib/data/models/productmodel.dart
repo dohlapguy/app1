@@ -1,3 +1,4 @@
+import 'package:app1/data/repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
@@ -13,8 +14,10 @@ class ProductModel {
   final String thumbnail;
   final List<String> images;
   final String shopId;
+  final String shopName;
 
   ProductModel({
+    required this.shopName,
     required this.id,
     required this.title,
     required this.description,
@@ -46,53 +49,23 @@ class ProductModel {
       thumbnail: data['thumbnail'],
       images: List<String>.from(data['images']),
       shopId: data['shopId'],
+      shopName: data['shopName'],
     );
   }
 
-// Future<void> toDocumentSnapshot() async {
-//     try {
-//       // Get the reference to the product document
-//       final DocumentReference productRef =
-//           FirebaseFirestore.instance.collection('products').doc(id);
-
-//       // Prepare the data to be saved in the document
-//       final Map<String, dynamic> data = {
-//         'title': title,
-//         'description': description,
-//         'price': price,
-//         'discountPercentage': discountPercentage,
-//         'rating': rating,
-//         'stock': stock,
-//         'brand': brand,
-//         'category': category,
-//         'thumbnail': thumbnail,
-//         'images': images,
-//         'shopId': shopId,
-//         // Add other properties as needed
-//       };
-
-//       // Save the data in the document (update if it exists, create if it doesn't)
-//       await productRef.set(data);
-//     } catch (e) {
-//       // Handle any errors that might occur during the save process
-//       print('Error saving product data: $e');
-//       throw e;
-//     }
-//   }
-
-  ProductModel copyWith({
-    String? title,
-    String? description,
-    double? price,
-    double? discountPercentage,
-    double? rating,
-    int? stock,
-    String? brand,
-    String? category,
-    String? thumbnail,
-    List<String>? images,
-    String? shopId,
-  }) {
+  ProductModel copyWith(
+      {String? title,
+      String? description,
+      double? price,
+      double? discountPercentage,
+      double? rating,
+      int? stock,
+      String? brand,
+      String? category,
+      String? thumbnail,
+      List<String>? images,
+      String? shopId,
+      String? shopName}) {
     return ProductModel(
       id: id,
       title: title ?? this.title,
@@ -106,6 +79,7 @@ class ProductModel {
       thumbnail: thumbnail ?? this.thumbnail,
       images: images ?? this.images,
       shopId: shopId ?? this.shopId,
+      shopName: shopName ?? this.shopName,
     );
   }
 }

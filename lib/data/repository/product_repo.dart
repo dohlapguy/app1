@@ -49,4 +49,21 @@ class ProductRepo {
       return products;
     }
   }
+
+  Future<ProductModel?> getProductById(String productId) async {
+    try {
+      DocumentSnapshot snapshot =
+          await _productsCollection.doc(productId).get();
+
+      if (snapshot.exists) {
+        return ProductModel.fromSnapshot(snapshot);
+      } else {
+        // Product not found
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching product details: $e');
+      return null;
+    }
+  }
 }

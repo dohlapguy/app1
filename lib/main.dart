@@ -1,13 +1,13 @@
+import 'package:app1/config/theme.dart';
 import 'package:app1/presentation/routes/route_config.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'business_logic/blocs/auth_bloc/auth_bloc.dart';
-import 'business_logic/blocs/product_bloc/product_bloc.dart';
 import 'business_logic/blocs/shop_bloc/shop_bloc.dart';
 import 'data/repo.dart';
-import 'data/repository/phone_auth_repository.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -48,10 +48,15 @@ class MainApp extends StatelessWidget {
                 ShopBloc(shopRepo: RepositoryProvider.of<ShopRepo>(context)),
           ),
         ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          routerConfig: Routes().router,
-        ),
+        child: ScreenUtilInit(
+            designSize: const Size(390, 844),
+            builder: (context, child) {
+              return MaterialApp.router(
+                theme: theme(),
+                debugShowCheckedModeBanner: false,
+                routerConfig: Routes().router,
+              );
+            }),
       ),
     );
   }

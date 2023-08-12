@@ -34,4 +34,19 @@ class ShopRepo {
       return null;
     }
   }
+
+  Future<String?> getShopNameById(String shopId) async {
+    try {
+      DocumentSnapshot docSnapshot = await _shopCollection.doc(shopId).get();
+      if (docSnapshot.exists) {
+        String shopName = docSnapshot['title'];
+        return shopName;
+      } else {
+        return null; // Shop not found with the given ID
+      }
+    } catch (e) {
+      print('Error fetching shop name: $e');
+      return null; // Error occurred while fetching shop name
+    }
+  }
 }
