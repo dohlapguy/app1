@@ -1,6 +1,5 @@
 import 'package:app1/business_logic/blocs/auth_bloc/auth_bloc.dart';
 import 'package:app1/presentation/routes/route_constants.dart';
-import 'package:app1/presentation/widgets/shopview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,8 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context, shopState) {
                 return CustomScrollView(
                   slivers: [
+                    // ** Custom Home AppBar
                     SliverAppBar(
-                        expandedHeight: 100.sp,
+                        expandedHeight: 100.h,
                         backgroundColor: AppColors.canvasColor,
                         flexibleSpace: FlexibleSpaceBar(
                           title: Align(
@@ -60,12 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Icon(
                                     Icons.home_rounded,
-                                    color: AppColors.purple.withOpacity(0.7),
+                                    color: AppColors.violet.withOpacity(0.7),
                                     size: 40.sp,
                                   ),
                                   Icon(
                                     Icons.account_circle_outlined,
-                                    color: AppColors.purple.withOpacity(0.7),
+                                    color: AppColors.violet.withOpacity(0.7),
                                     size: 40.sp,
                                   ),
                                 ],
@@ -74,10 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           )
                         ]),
 
-                    SliverToBoxAdapter(
-                      child: SizedBox(height: 20.h),
-                    ),
-                    getAppBarSearch(context, size: 50),
+                    SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+                    getSliverAppBarSearch(context, size: 50),
 
                     // ** Deals List View
                     SliverToBoxAdapter(
@@ -103,6 +101,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               );
                             },
                           ),
+                        ),
+                      ),
+                    ),
+
+                    // ** 'Category' String
+                    SliverToBoxAdapter(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 14.w),
+                        child: Text(
+                          'Categories',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
                     ),
@@ -136,7 +145,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     // ** 'Shop' String
                     SliverToBoxAdapter(
                       child: Container(
-                        padding: EdgeInsets.all(14.sp),
+                        padding: EdgeInsets.only(
+                          bottom: 4.h,
+                          left: 14.w,
+                        ),
                         child: Text(
                           'Shops',
                           style: Theme.of(context).textTheme.titleLarge,
@@ -156,13 +168,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     SliverList(
                       delegate: SliverChildListDelegate(
                         [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          Wrap(
+                            spacing: 5.sp,
                             children: [
                               ElevatedButton(
                                   onPressed: () => context
                                       .pushNamed(RouteConstants.dealsRoute),
                                   child: const Text("deals")),
+                              ElevatedButton(
+                                  onPressed: () => context
+                                      .pushNamed(RouteConstants.cartRoute),
+                                  child: const Text("cart")),
                               Visibility(
                                 visible: shopState is! AuthLoggedInState,
                                 child: ElevatedButton(
@@ -181,6 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               ElevatedButton(
                                   onPressed: () => context.pushNamed('mock'),
                                   child: const Text("Mock")),
+                              ElevatedButton(
+                                  onPressed: () => context.pushNamed('order'),
+                                  child: const Text("Order")),
                             ],
                           ),
                           const SizedBox(height: 20),

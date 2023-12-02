@@ -1,4 +1,3 @@
-import 'package:app1/data/repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {

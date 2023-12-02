@@ -10,3 +10,5 @@ export 'screens/paymentscreen.dart';
 export 'screens/settingsscreen.dart';
 export 'screens/shopdetailscreen.dart';
 export 'screens/shopscreen.dart';
+export 'screens/searchscreen.dart';
+export 'screens/searchresultscreen.dart';

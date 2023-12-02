@@ -7,9 +7,14 @@ class ProductListState extends Equatable {
     this.status = ProductStatus.initial,
     this.products = const <ProductModel>[],
     this.hasReachedMax = false,
+    this.isFiltered = false,
+    this.filter,
   });
 
   final ProductStatus status;
+  final FilterProductModel? filter;
+  final bool isFiltered;
+
   final List<ProductModel> products;
   final bool hasReachedMax;
 
@@ -17,11 +22,15 @@ class ProductListState extends Equatable {
     ProductStatus? status,
     bool? hasReachedMax,
     List<ProductModel>? products,
+    bool? isFiltered,
+    FilterProductModel? filter,
   }) {
     return ProductListState(
       status: status ?? this.status,
       products: products ?? this.products,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      isFiltered: isFiltered ?? this.isFiltered,
+      filter: filter ?? this.filter,
     );
   }
 
@@ -31,5 +40,6 @@ class ProductListState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, products, hasReachedMax];
+  List<Object?> get props =>
+      [status, products, hasReachedMax, isFiltered, filter];
 }

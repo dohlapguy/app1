@@ -18,7 +18,7 @@ class Routes {
         builder: (context, state) => const PhoneLoginScreen(),
       ),
       GoRoute(
-        path: "/",
+        path: "/1",
         name: RouteConstants.homeRoute,
         builder: (context, state) => const HomeScreen(),
       ),
@@ -65,7 +65,7 @@ class Routes {
         builder: (context, state) => const OrderHistoryScreen(),
       ),
       GoRoute(
-        path: "/orders",
+        path: "/order",
         name: RouteConstants.orderRoute,
         builder: (context, state) => const OrderScreen(),
       ),
@@ -75,14 +75,31 @@ class Routes {
         builder: (context, state) => const PaymentScreen(),
       ),
       GoRoute(
-        path: "/product_details/:product_id",
+        // path: "/product_details/:product_id",
+        path: "/",
         name: RouteConstants.productDetailRoute,
         builder: (context, state) {
-          final productId = state.pathParameters['product_id'];
+          final productId = '3O7GbkyfpptlA6OTIYjS';
+          // final productId = state.pathParameters['product_id'];
           return BlocProvider(
             create: (context) => ProductDetailBloc(
                 productRepo: RepositoryProvider.of<ProductRepo>(context)),
             child: ProductScreen(productId: productId!),
+          );
+        },
+      ),
+      GoRoute(
+        path: "/search",
+        name: RouteConstants.searchRoute,
+        builder: (context, state) => const SearchScreen(),
+      ),
+      GoRoute(
+        path: "/search_result/:search_string",
+        name: RouteConstants.searchResultRoute,
+        builder: (context, state) {
+          final searchString = state.pathParameters['search_string'];
+          return SearchResultScreen(
+            searchString: searchString!,
           );
         },
       ),

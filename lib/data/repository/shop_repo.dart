@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models.dart';
 
@@ -13,8 +14,10 @@ class ShopRepo {
           querySnapshot.docs.map((doc) => ShopModel.fromSnapshot(doc)).toList();
       return shops;
     } catch (e) {
-      print('Error getting shops: $e');
-      throw e;
+      if (kDebugMode) {
+        print('Error getting shops: $e');
+      }
+      rethrow;
     }
   }
 
@@ -25,12 +28,13 @@ class ShopRepo {
           .doc(shopId)
           .get();
       if (doc.exists) {
-        final shopData = doc.data();
         return ShopModel.fromSnapshot(doc);
       }
       return null; // Return null if the shop with the specified ID doesn't exist.
     } catch (e) {
-      print('Error getting shop: $e');
+      if (kDebugMode) {
+        print('Error getting shop: $e');
+      }
       return null;
     }
   }
@@ -45,7 +49,9 @@ class ShopRepo {
         return null; // Shop not found with the given ID
       }
     } catch (e) {
-      print('Error fetching shop name: $e');
+      if (kDebugMode) {
+        print('Error fetching shop name: $e');
+      }
       return null; // Error occurred while fetching shop name
     }
   }

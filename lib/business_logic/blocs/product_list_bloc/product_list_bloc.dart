@@ -1,11 +1,13 @@
 import 'dart:async';
 
-import 'package:app1/data/repo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stream_transform/stream_transform.dart';
-import '../../../data/models/productmodel.dart';
+
+import 'package:app1/data/repo.dart';
+
+import '../../../data/models.dart';
 
 part 'product_list_event.dart';
 part 'product_list_state.dart';
@@ -25,29 +27,33 @@ class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
       _fetchProductsOfShop,
       transformer: throttleDroppable(throttleDuration),
     );
+    on<FetchFilteredProductsOfShop>(
+      _fetchFilteredProductsOfShop,
+      transformer: throttleDroppable(throttleDuration),
+    );
     on<RefreshProductList>(_refreshProductList);
+    on<ResetFilterProductsOfShop>(_resetFilterProductsOfShop);
   }
   final ProductRepo productRepo;
   final ShopRepo shopRepo;
 
+// ** Fetch only the default products of Shops whitout any Filter
   Future<void> _fetchProductsOfShop(
       FetchProductsOfShop event, Emitter<ProductListState> emit) async {
     if (state.hasReachedMax) return;
     try {
-      if (state.status == ProductStatus.initial) {
-        final products = await productRepo.getProductsOfShop(event.shopId);
-        return emit(
-          state.copyWith(
-            status: ProductStatus.success,
-            products: products,
-            hasReachedMax: false,
-          ),
+      List<ProductModel> products = [];
+      if (state.products.isEmpty) {
+        products = await productRepo.getProductsOfShop(shopId: event.shopId);
+      } else {
+        products = await productRepo.getProductsOfShop(
+          shopId: event.shopId,
+          startAfterId: state.products.last.id,
         );
       }
-      final products = await productRepo.getProductsOfShop(event.shopId,
-          startAfterId: state.products.last.id);
       products.isEmpty
-          ? emit(state.copyWith(hasReachedMax: true))
+          ? emit(state.copyWith(
+              status: ProductStatus.success, hasReachedMax: true))
           : emit(
               state.copyWith(
                 status: ProductStatus.success,
@@ -60,20 +66,63 @@ class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
     }
   }
 
+//**  Fetch only the Filtered Products of Shop Base on Price and Category */
+  FutureOr<void> _fetchFilteredProductsOfShop(
+      FetchFilteredProductsOfShop event, Emitter<ProductListState> emit) async {
+    if (state.hasReachedMax) return;
+    try {
+      List<ProductModel> products = [];
+      if (state.products.isEmpty) {
+        products = await productRepo.getProductsOfShop(
+            shopId: event.shopId, filter: event.filter);
+      } else {
+        products = await productRepo.getProductsOfShop(
+            shopId: event.shopId,
+            startAfterId: state.products.last.id,
+            filter: event.filter);
+      }
+
+      products.isEmpty
+          ? emit(state.copyWith(hasReachedMax: true))
+          : emit(
+              state.copyWith(
+                status: ProductStatus.success,
+                products: List.of(state.products)..addAll(products),
+                filter: event.filter,
+                isFiltered: true,
+                hasReachedMax: false,
+              ),
+            );
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  FutureOr<void> _resetFilterProductsOfShop(
+      ResetFilterProductsOfShop event, Emitter<ProductListState> emit) {
+    emit(const ProductListState(status: ProductStatus.isloading));
+    try {
+      emit(const ProductListState(products: [], hasReachedMax: false));
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> _refreshProductList(
       RefreshProductList event, Emitter<ProductListState> emit) async {
     emit(state.copyWith(status: ProductStatus.isloading));
     try {
-      final products = await productRepo.getProductsOfShop(event.shopId);
+      final products =
+          await productRepo.getProductsOfShop(shopId: event.shopId);
       emit(
         state.copyWith(
           status: ProductStatus.success,
           products: products,
           hasReachedMax: false,
+          isFiltered: false,
         ),
       );
     } on Exception catch (e) {
-      // TODO
       print(e);
     }
   }

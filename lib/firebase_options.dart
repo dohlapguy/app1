@@ -44,39 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDok4ncNpCSS25ZAA3YjHdB3TFu8pzGy9A',
-    appId: '1:115730735502:web:89a278405fd7aa5438c4df',
-    messagingSenderId: '115730735502',
-    projectId: 'deliverease-4c543',
-    authDomain: 'deliverease-4c543.firebaseapp.com',
-    storageBucket: 'deliverease-4c543.appspot.com',
+    apiKey: 'AIzaSyCh03xYqbx31yBbgeMQAcBb4cVQn7QDL8Y',
+    appId: '1:378216902175:web:0f041dc497df3db72faf2a',
+    messagingSenderId: '378216902175',
+    projectId: 'app1-900e8',
+    authDomain: 'app1-900e8.firebaseapp.com',
+    storageBucket: 'app1-900e8.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDyMUCLw7PxZibsrUSvqjEPTheQ799IGLw',
-    appId: '1:115730735502:android:0804e848bf2bcc5b38c4df',
-    messagingSenderId: '115730735502',
-    projectId: 'deliverease-4c543',
-    storageBucket: 'deliverease-4c543.appspot.com',
+    apiKey: 'AIzaSyDvvHbZF9qoyBwjijxbSE5ZX2HDZSUByhQ',
+    appId: '1:378216902175:android:9439bc13f20e1e0c2faf2a',
+    messagingSenderId: '378216902175',
+    projectId: 'app1-900e8',
+    storageBucket: 'app1-900e8.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDNdf_DH9owoXrLugf_cjD9RObNVGHTlUM',
-    appId: '1:115730735502:ios:ee26e1afebbae20c38c4df',
-    messagingSenderId: '115730735502',
-    projectId: 'deliverease-4c543',
-    storageBucket: 'deliverease-4c543.appspot.com',
-    iosClientId: '115730735502-lbptf980pogd3f0mkph2mr5r7iidhqt2.apps.googleusercontent.com',
-    iosBundleId: 'com.example.akshit',
+    apiKey: 'AIzaSyAOVRoCopM_KfPUegQyi7k--yblzTqh6Ec',
+    appId: '1:378216902175:ios:3bd2ce2a7affbbc02faf2a',
+    messagingSenderId: '378216902175',
+    projectId: 'app1-900e8',
+    storageBucket: 'app1-900e8.appspot.com',
+    iosBundleId: 'com.example.app1',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDNdf_DH9owoXrLugf_cjD9RObNVGHTlUM',
-    appId: '1:115730735502:ios:ee26e1afebbae20c38c4df',
-    messagingSenderId: '115730735502',
-    projectId: 'deliverease-4c543',
-    storageBucket: 'deliverease-4c543.appspot.com',
-    iosClientId: '115730735502-lbptf980pogd3f0mkph2mr5r7iidhqt2.apps.googleusercontent.com',
-    iosBundleId: 'com.example.akshit',
+    apiKey: 'AIzaSyAOVRoCopM_KfPUegQyi7k--yblzTqh6Ec',
+    appId: '1:378216902175:ios:3bd2ce2a7affbbc02faf2a',
+    messagingSenderId: '378216902175',
+    projectId: 'app1-900e8',
+    storageBucket: 'app1-900e8.appspot.com',
+    iosBundleId: 'com.example.app1',
   );
 }

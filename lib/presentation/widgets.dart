@@ -3,4 +3,7 @@ export 'widgets/phonenumber_field.dart';
 export 'widgets/productsview.dart';
 export 'widgets/shopview.dart';
 export 'widgets/bottom_loader.dart';
-export 'widgets/appbar.dart';
+export 'widgets/general_sliver_appbar.dart';
+export 'widgets/general_appbar.dart';
+export 'widgets/image_carousel.dart';
+export 'widgets/text_widgets.dart';

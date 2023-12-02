@@ -13,6 +13,7 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: "App1",
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
@@ -49,6 +50,7 @@ class MainApp extends StatelessWidget {
           ),
         ],
         child: ScreenUtilInit(
+            minTextAdapt: true,
             designSize: const Size(390, 844),
             builder: (context, child) {
               return MaterialApp.router(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models.dart';
 
@@ -16,22 +17,36 @@ class ProductRepo {
 
       return products;
     } catch (e) {
-      print('Error getting products: $e');
+      if (kDebugMode) {
+        print('Error getting products: $e');
+      }
       return [];
     }
   }
 
-  Future<List<ProductModel>> getProductsOfShop(String shopId,
-      {int limit = 4, String? startAfterId}) async {
+  Future<List<ProductModel>> getProductsOfShop(
+      {required shopId,
+      int limit = 4,
+      String? startAfterId,
+      FilterProductModel? filter}) async {
     List<ProductModel> products = [];
 
     try {
       Query query =
           _productsCollection.where('shopId', isEqualTo: shopId).limit(limit);
 
+      if (filter != null) {
+        final categories =
+            filter.category!.map((category) => category.name).toList();
+
+        query = _productsCollection
+            .where('shopId', isEqualTo: shopId)
+            .where('category', whereIn: categories)
+            .limit(limit);
+      }
+
       if (startAfterId != null) {
         final startAfter = await _productsCollection.doc(startAfterId).get();
-        print(startAfter);
         final doc = startAfter;
         query = query.startAfterDocument(doc);
       }
@@ -45,7 +60,9 @@ class ProductRepo {
       return products;
     } catch (e) {
       // Handle any errors that might occur during the fetching process
-      print('Error fetching products: $e');
+      if (kDebugMode) {
+        print('Error fetching products: $e');
+      }
       return products;
     }
   }
@@ -62,7 +79,9 @@ class ProductRepo {
         return null;
       }
     } catch (e) {
-      print('Error fetching product details: $e');
+      if (kDebugMode) {
+        print('Error fetching product details: $e');
+      }
       return null;
     }
   }

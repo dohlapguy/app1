@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'dart:math';
@@ -19,9 +20,13 @@ Future<void> updateShopNamesForAllProducts() async {
       if (shopSnapshot.exists) {
         String shopName = shopSnapshot['title'];
         await productsCollection.doc(productId).update({'shopName': shopName});
-        print('Updated shopName for product $productId');
+        if (kDebugMode) {
+          print('Updated shopName for product $productId');
+        }
       } else {
-        print('Shop not found with shopId $shopId for product $productId');
+        if (kDebugMode) {
+          print('Shop not found with shopId $shopId for product $productId');
+        }
       }
     }
   } catch (e) {

@@ -11,4 +11,6 @@ class RouteConstants {
   static const shopsRoute = 'shops';
   static const shopDetailRoute = 'shop_detail';
   static const dealsRoute = 'deals';
+  static const searchRoute = 'search';
+  static const searchResultRoute = 'search_result';
 }

@@ -26,7 +26,7 @@ class ShopDetailBloc extends Bloc<ShopDetailEvent, ShopDetailState> {
     try {
       emit(ShopDetailLoadingState());
       final shop = await shopRepo.getShopDetails(event.shopId);
-      final products = await productRepo.getProductsOfShop(event.shopId);
+
       if (shop != null) {
         emit(ShopDetailLoadedState(shop));
       } else {

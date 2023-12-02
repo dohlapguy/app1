@@ -78,7 +78,8 @@ class ShopTile extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15.r)),
                     image: DecorationImage(
-                        image: NetworkImage(shop.thumbnail), fit: BoxFit.cover),
+                        image: NetworkImage(shop.thumbnail),
+                        fit: BoxFit.fitWidth),
                   ),
                   child: Container(
                     decoration: BoxDecoration(
