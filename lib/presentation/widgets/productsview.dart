@@ -1,18 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app1/constants/app_colors.dart';
 import 'package:app1/presentation/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:app1/data/models/productmodel.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../business_logic/blocs/product_list_bloc/product_list_bloc.dart';
+import '../../domain/entities/product.dart';
 import '../routes/route_constants.dart';
 
 class ProductView extends StatelessWidget {
@@ -27,7 +22,7 @@ class ProductView extends StatelessWidget {
 }
 
 class ProductTile extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
   final bool ofShop;
   const ProductTile({
     Key? key,

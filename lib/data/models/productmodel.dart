@@ -1,35 +1,35 @@
+import '../../domain/entities/product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductModel {
-  final String id;
-  final String title;
-  final String description;
-  final double price;
-  final double discountPercentage;
-  final double rating;
-  final int stock;
-  final String brand;
-  final String category;
-  final String thumbnail;
-  final List<String> images;
-  final String shopId;
-  final String shopName;
-
-  ProductModel({
-    required this.shopName,
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.price,
-    required this.discountPercentage,
-    required this.rating,
-    required this.stock,
-    required this.brand,
-    required this.category,
-    required this.thumbnail,
-    required this.images,
-    required this.shopId,
-  });
+class ProductModel extends Product {
+  const ProductModel({
+    required String shopName,
+    required String id,
+    required String title,
+    required String description,
+    required double price,
+    required double discountPercentage,
+    required double rating,
+    required int stock,
+    required String brand,
+    required String category,
+    required String thumbnail,
+    required List<String> images,
+    required String shopId,
+  }) : super(
+            shopName: shopName,
+            id: id,
+            title: title,
+            description: description,
+            price: price,
+            discountPercentage: discountPercentage,
+            rating: rating,
+            stock: stock,
+            brand: brand,
+            category: category,
+            thumbnail: thumbnail,
+            images: images,
+            shopId: shopId);
 
   // Factory method to create a Product instance from Firestore DocumentSnapshot
   factory ProductModel.fromSnapshot(DocumentSnapshot snapshot) {

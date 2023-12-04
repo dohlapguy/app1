@@ -12,7 +12,7 @@ class ShopInitialState extends ShopState {}
 class ShopLoadingState extends ShopState {}
 
 class ShopsLoadedState extends ShopState {
-  final List<ShopModel> shops;
+  final List<Shop> shops;
 
   const ShopsLoadedState(this.shops);
 

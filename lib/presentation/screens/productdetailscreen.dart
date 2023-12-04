@@ -1,13 +1,11 @@
-import 'package:app1/business_logic/blocs/product_detail_bloc/product_detail_bloc.dart';
-import 'package:app1/constants/app_colors.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import '../../presentation/blocs/product_detail_bloc/product_detail_bloc.dart';
+import '../../constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:readmore/readmore.dart';
 
 import '../widgets.dart';

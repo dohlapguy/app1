@@ -1,13 +1,13 @@
-import '../../business_logic/blocs/product_detail_bloc/product_detail_bloc.dart';
-import '../../data/repo.dart';
-import '../screens/mock/mockscreen.dart';
+import 'package:app1/locator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../business_logic/blocs/shop_detail_bloc/shop_detail_bloc.dart';
-import '../../business_logic/blocs/product_list_bloc/product_list_bloc.dart';
-import '../screens.dart';
-import 'route_constants.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../presentation/blocs/product_detail_bloc/product_detail_bloc.dart';
+import '../../presentation/blocs/product_list_bloc/product_list_bloc.dart';
+import '../../presentation/blocs/shop_detail_bloc/shop_detail_bloc.dart';
+import '../screens.dart';
+import '../screens/mock/mockscreen.dart';
+import 'route_constants.dart';
 
 class Routes {
   final GoRouter router = GoRouter(
@@ -18,7 +18,7 @@ class Routes {
         builder: (context, state) => const PhoneLoginScreen(),
       ),
       GoRoute(
-        path: "/1",
+        path: "/",
         name: RouteConstants.homeRoute,
         builder: (context, state) => const HomeScreen(),
       ),
@@ -34,15 +34,9 @@ class Routes {
           final shopId = state.pathParameters['shop_id']!;
           return MultiBlocProvider(
             providers: [
+              BlocProvider(create: (context) => locator<ShopDetailBloc>()),
               BlocProvider(
-                create: (context) => ShopDetailBloc(
-                    shopRepo: RepositoryProvider.of<ShopRepo>(context),
-                    productRepo: RepositoryProvider.of<ProductRepo>(context)),
-              ),
-              BlocProvider(
-                create: (context) => ProductListBloc(
-                    shopRepo: RepositoryProvider.of<ShopRepo>(context),
-                    productRepo: RepositoryProvider.of<ProductRepo>(context)),
+                create: (context) => locator<ProductListBloc>(),
               ),
             ],
             child: ShopDetailScreen(shopId: shopId),
@@ -75,15 +69,12 @@ class Routes {
         builder: (context, state) => const PaymentScreen(),
       ),
       GoRoute(
-        // path: "/product_details/:product_id",
-        path: "/",
+        path: "/product_details/:product_id",
         name: RouteConstants.productDetailRoute,
         builder: (context, state) {
-          final productId = '3O7GbkyfpptlA6OTIYjS';
-          // final productId = state.pathParameters['product_id'];
+          final productId = state.pathParameters['product_id'];
           return BlocProvider(
-            create: (context) => ProductDetailBloc(
-                productRepo: RepositoryProvider.of<ProductRepo>(context)),
+            create: (context) => locator<ProductDetailBloc>(),
             child: ProductScreen(productId: productId!),
           );
         },

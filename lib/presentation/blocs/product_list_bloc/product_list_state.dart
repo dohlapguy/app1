@@ -5,7 +5,7 @@ enum ProductStatus { initial, success, failure, isloading }
 class ProductListState extends Equatable {
   const ProductListState({
     this.status = ProductStatus.initial,
-    this.products = const <ProductModel>[],
+    this.products = const <Product>[],
     this.hasReachedMax = false,
     this.isFiltered = false,
     this.filter,
@@ -15,13 +15,13 @@ class ProductListState extends Equatable {
   final FilterProductModel? filter;
   final bool isFiltered;
 
-  final List<ProductModel> products;
+  final List<Product> products;
   final bool hasReachedMax;
 
   ProductListState copyWith({
     ProductStatus? status,
     bool? hasReachedMax,
-    List<ProductModel>? products,
+    List<Product>? products,
     bool? isFiltered,
     FilterProductModel? filter,
   }) {

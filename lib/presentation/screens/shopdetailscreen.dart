@@ -1,6 +1,4 @@
-import 'dart:io';
-
-import 'package:app1/constants/app_colors.dart';
+import '../../constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,8 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../business_logic/blocs/product_list_bloc/product_list_bloc.dart';
-import '../../business_logic/blocs/shop_detail_bloc/shop_detail_bloc.dart';
+import '../../domain/entities/shop.dart';
+import '../../presentation/blocs/product_list_bloc/product_list_bloc.dart';
+import '../../presentation/blocs/shop_detail_bloc/shop_detail_bloc.dart';
 import '../../data/models.dart';
 import '../widgets.dart';
 
@@ -178,7 +177,7 @@ class _ShopDetailScreenState extends State<ShopDetailScreen> {
     );
   }
 
-  Widget shopDetailWidget(BuildContext context, ShopModel shop) {
+  Widget shopDetailWidget(BuildContext context, Shop shop) {
     return Padding(
       padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.h, top: 5.h),
       child: Container(

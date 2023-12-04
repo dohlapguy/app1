@@ -4,13 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:app1/data/models/shopmodel.dart';
 import 'package:app1/presentation/routes/route_constants.dart';
 
-import '../../business_logic/blocs/product_list_bloc/product_list_bloc.dart';
-import '../../business_logic/blocs/shop_bloc/shop_bloc.dart';
+import '../../domain/entities/shop.dart';
+import '../../presentation/blocs/shop_bloc/shop_bloc.dart';
 import '../../constants/app_colors.dart';
-import '../widgets.dart';
 
 class ShopView extends StatelessWidget {
   const ShopView({super.key});
@@ -45,7 +43,7 @@ class ShopTile extends StatelessWidget {
     required this.shop,
   });
 
-  final ShopModel shop;
+  final Shop shop;
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,18 @@
+import '../../core/error/exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models.dart';
 
-class ProductRepo {
+abstract class ProductDataSource {
+  Future<ProductModel> getProductById(String productId);
+  Future<List<ProductModel>> getProductsOfShop(
+      {required String shopId,
+      String? startAfterId,
+      FilterProductModel? filter});
+}
+
+class ProductDataSourceImpl extends ProductDataSource {
   final CollectionReference _productsCollection =
       FirebaseFirestore.instance.collection('products');
 
@@ -24,11 +33,12 @@ class ProductRepo {
     }
   }
 
+  @override
   Future<List<ProductModel>> getProductsOfShop(
-      {required shopId,
-      int limit = 4,
+      {required String shopId,
       String? startAfterId,
       FilterProductModel? filter}) async {
+    const int limit = 4;
     List<ProductModel> products = [];
 
     try {
@@ -63,26 +73,22 @@ class ProductRepo {
       if (kDebugMode) {
         print('Error fetching products: $e');
       }
-      return products;
+      throw ServerException();
     }
   }
 
-  Future<ProductModel?> getProductById(String productId) async {
+  @override
+  Future<ProductModel> getProductById(String productId) async {
     try {
       DocumentSnapshot snapshot =
           await _productsCollection.doc(productId).get();
 
-      if (snapshot.exists) {
-        return ProductModel.fromSnapshot(snapshot);
-      } else {
-        // Product not found
-        return null;
-      }
+      return ProductModel.fromSnapshot(snapshot);
     } catch (e) {
       if (kDebugMode) {
         print('Error fetching product details: $e');
       }
-      return null;
+      throw ServerException();
     }
   }
 }

@@ -10,7 +10,7 @@ abstract class ProductDetailState extends Equatable {
 class ProductDetailInitial extends ProductDetailState {}
 
 class ProductDetailLoaded extends ProductDetailState {
-  final ProductModel product;
+  final Product product;
 
   const ProductDetailLoaded(this.product);
 

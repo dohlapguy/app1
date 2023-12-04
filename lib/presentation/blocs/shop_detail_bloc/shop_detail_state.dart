@@ -11,7 +11,7 @@ abstract class ShopDetailState extends Equatable {
 class ShopDetailInitial extends ShopDetailState {}
 
 class ShopDetailLoadedState extends ShopDetailState {
-  final ShopModel shop;
+  final Shop shop;
 
   const ShopDetailLoadedState(this.shop);
 
@@ -19,7 +19,7 @@ class ShopDetailLoadedState extends ShopDetailState {
   List<Object> get props => [shop];
 
   ShopDetailLoadedState copyWith({
-    ShopModel? shop,
+    Shop? shop,
   }) {
     return ShopDetailLoadedState(
       shop ?? this.shop,

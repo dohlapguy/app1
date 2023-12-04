@@ -1,7 +1,6 @@
-import 'package:app1/presentation/widgets/searchbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
+
+import '../widgets/searchbar.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

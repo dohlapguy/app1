@@ -2,7 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../business_logic/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
 
 class PhoneNumberWidget extends StatefulWidget {
   const PhoneNumberWidget({Key? key, required this.phoneNumberController})

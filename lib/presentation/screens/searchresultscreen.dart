@@ -1,9 +1,7 @@
-import 'package:app1/constants/app_colors.dart';
-import 'package:app1/data/models/productmodel.dart';
-import 'package:app1/presentation/widgets/searchbar.dart';
+import '../../constants/app_colors.dart';
+import '../../data/models/productmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../widgets.dart';
 

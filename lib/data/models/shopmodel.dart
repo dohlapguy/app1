@@ -1,23 +1,23 @@
+import 'package:app1/domain/entities/shop.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ShopModel {
-  final String id;
-  final String title;
-  final String thumbnail;
-  final double rating;
-  final DateTime registeredDate;
-  final String address;
-  final String pincode;
-
+class ShopModel extends Shop {
   ShopModel({
-    required this.id,
-    required this.title,
-    required this.thumbnail,
-    required this.rating,
-    required this.registeredDate,
-    required this.address,
-    required this.pincode,
-  });
+    required String id,
+    required String title,
+    required String thumbnail,
+    required double rating,
+    required DateTime registeredDate,
+    required String address,
+    required String pincode,
+  }) : super(
+            id: id,
+            title: title,
+            thumbnail: thumbnail,
+            rating: rating,
+            registeredDate: registeredDate,
+            address: address,
+            pincode: pincode);
 
   // Factory method to create a Shop instance from Firestore DocumentSnapshot
   factory ShopModel.fromSnapshot(DocumentSnapshot snapshot) {

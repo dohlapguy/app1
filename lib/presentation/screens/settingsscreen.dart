@@ -1,4 +1,4 @@
-import 'package:app1/business_logic/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

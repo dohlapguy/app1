@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:app1/data/models.dart';
+import '../../../data/models.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

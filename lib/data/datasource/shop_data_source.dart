@@ -1,12 +1,19 @@
+import 'package:app1/core/error/exceptions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models.dart';
 
-class ShopRepo {
+abstract class ShopDataSource {
+  Future<ShopModel> getShopDetails(String shopId);
+  Future<List<ShopModel>> getShops();
+}
+
+class ShopDataSourceImpl extends ShopDataSource {
   final CollectionReference _shopCollection =
       FirebaseFirestore.instance.collection('shops');
 
+  @override
   Future<List<ShopModel>> getShops() async {
     try {
       QuerySnapshot querySnapshot = await _shopCollection.get();
@@ -17,11 +24,12 @@ class ShopRepo {
       if (kDebugMode) {
         print('Error getting shops: $e');
       }
-      rethrow;
     }
+    throw ServerException();
   }
 
-  Future<ShopModel?> getShopDetails(String shopId) async {
+  @override
+  Future<ShopModel> getShopDetails(String shopId) async {
     try {
       final doc = await FirebaseFirestore.instance
           .collection('shops')
@@ -30,13 +38,12 @@ class ShopRepo {
       if (doc.exists) {
         return ShopModel.fromSnapshot(doc);
       }
-      return null; // Return null if the shop with the specified ID doesn't exist.
     } catch (e) {
       if (kDebugMode) {
         print('Error getting shop: $e');
       }
-      return null;
     }
+    throw ServerException();
   }
 
   Future<String?> getShopNameById(String shopId) async {

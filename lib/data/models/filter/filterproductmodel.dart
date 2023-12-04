@@ -1,4 +1,4 @@
-import 'package:app1/data/models.dart';
+import '../../models.dart';
 import 'package:equatable/equatable.dart';
 
 class FilterProductModel extends Equatable {

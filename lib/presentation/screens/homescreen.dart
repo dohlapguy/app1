@@ -1,11 +1,11 @@
-import 'package:app1/business_logic/blocs/auth_bloc/auth_bloc.dart';
-import 'package:app1/presentation/routes/route_constants.dart';
+import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../routes/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../business_logic/blocs/shop_bloc/shop_bloc.dart';
+import '../../presentation/blocs/shop_bloc/shop_bloc.dart';
 import '../../constants/app_colors.dart';
 import '../widgets.dart';
 

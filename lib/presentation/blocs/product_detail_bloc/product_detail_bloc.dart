@@ -1,17 +1,18 @@
 import 'dart:async';
 
-import 'package:app1/data/repo.dart';
+import '../../../domain/usecases/product_usecases/get_product_by_id_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../data/models.dart';
+import '../../../core/error/failure.dart';
+import '../../../domain/entities/product.dart';
 
 part 'product_detail_event.dart';
 part 'product_detail_state.dart';
 
 class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
-  final ProductRepo productRepo;
-  ProductDetailBloc({required this.productRepo})
+  final GetProductByIdUsecase getProductByIdUsecase;
+  ProductDetailBloc({required this.getProductByIdUsecase})
       : super(ProductDetailInitial()) {
     on<FetchProductById>(_fetchProductById);
   }
@@ -20,12 +21,11 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       FetchProductById event, Emitter<ProductDetailState> emit) async {
     emit(ProductDetailLoading());
     try {
-      final product = await productRepo.getProductById(event.productId);
-      if (product != null) {
-        emit(ProductDetailLoaded(product));
-      } else {
-        emit(const ProductDetailError('Product not found'));
-      }
+      final productResult =
+          await getProductByIdUsecase.call(Params(event.productId));
+      productResult.fold(
+          (failure) => emit(ProductDetailError(getStringByFailure(failure))),
+          (product) => emit(ProductDetailLoaded(product)));
     } catch (e) {
       emit(const ProductDetailError('Error fetching product details'));
     }
