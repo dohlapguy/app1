@@ -14,7 +14,7 @@ class FetchProductsOfShop extends ProductEvent {
   const FetchProductsOfShop({required this.shopId});
 
   @override
-  List<Object?> get props => [shopId];
+  List<Object> get props => [shopId];
 }
 
 class ResetFilterProductsOfShop extends ProductEvent {

@@ -1,4 +1,5 @@
-import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
+import '../cubit/auth_cubit.dart';
 import '../routes/route_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,14 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    // Trigger the event when the screen is built
-    BlocProvider.of<AuthBloc>(context).add(CheckAuthStatus());
+    // BlocProvider.of<AuthBloc>(context).add(CheckAuthStatus());
+    print("hello");
     BlocProvider.of<ShopBloc>(context).add(FetchShopsEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           body: SafeArea(
@@ -63,10 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: AppColors.violet.withOpacity(0.7),
                                     size: 40.sp,
                                   ),
-                                  Icon(
-                                    Icons.account_circle_outlined,
+                                  IconButton(
+                                    onPressed: () => context.pushNamed(
+                                        RouteConstants.settingsRoute),
+                                    icon: const Icon(
+                                        Icons.account_circle_outlined),
                                     color: AppColors.violet.withOpacity(0.7),
-                                    size: 40.sp,
+                                    iconSize: 40.sp,
                                   ),
                                 ],
                               ),
@@ -180,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       .pushNamed(RouteConstants.cartRoute),
                                   child: const Text("cart")),
                               Visibility(
-                                visible: shopState is! AuthLoggedInState,
+                                visible: state is AuthIsLoggedOutState,
                                 child: ElevatedButton(
                                     onPressed: () => context.pushNamed(
                                         RouteConstants.phoneLoginRoute),

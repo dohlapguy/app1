@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
 
 class OtpWidget extends StatelessWidget {
   OtpWidget(
@@ -53,7 +53,7 @@ class OtpWidget extends StatelessWidget {
   }
 
   void _verifyOtp({required BuildContext context}) {
-    context.read<AuthBloc>().add(VerifySentOtpEvent(
+    context.read<PhoneLoginAuthBloc>().add(VerifySentOtpEvent(
         otpCode: codeController.text, verificationId: verificationId));
     codeController.clear();
   }

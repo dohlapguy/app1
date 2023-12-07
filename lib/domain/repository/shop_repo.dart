@@ -5,5 +5,5 @@ import '../entities/shop.dart';
 
 abstract class ShopRepo {
   Future<Either<Failure, List<Shop>>> getShops();
-  Future<Either<Failure, Shop>> getShopDetails({required String shopId});
+  Future<Either<Failure, Shop>> getShopDetail({required String shopId});
 }

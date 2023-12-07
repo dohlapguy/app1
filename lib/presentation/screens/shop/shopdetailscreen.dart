@@ -1,4 +1,4 @@
-import '../../constants/app_colors.dart';
+import '../../../constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,11 +6,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../domain/entities/shop.dart';
-import '../../presentation/blocs/product_list_bloc/product_list_bloc.dart';
-import '../../presentation/blocs/shop_detail_bloc/shop_detail_bloc.dart';
-import '../../data/models.dart';
-import '../widgets.dart';
+import '../../../domain/entities/shop.dart';
+import '../../blocs/product_list_bloc/product_list_bloc.dart';
+import '../../blocs/shop_detail_bloc/shop_detail_bloc.dart';
+import '../../../data/models.dart';
+import '../../widgets.dart';
 
 class ShopDetailScreen extends StatefulWidget {
   final String shopId;

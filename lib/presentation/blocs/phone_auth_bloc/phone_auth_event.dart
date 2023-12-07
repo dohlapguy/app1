@@ -1,14 +1,14 @@
-part of 'auth_bloc.dart';
+part of 'phone_auth_bloc.dart';
 
-abstract class AuthEvent extends Equatable {
-  const AuthEvent();
+abstract class PhoneLoginAuthEvent extends Equatable {
+  const PhoneLoginAuthEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 // This event will be triggered when the user enters the phone number and presses the Send OTP button on the UI.
-class SendOtpToPhoneEvent extends AuthEvent {
+class SendOtpToPhoneEvent extends PhoneLoginAuthEvent {
   final String phoneNumber;
 
   const SendOtpToPhoneEvent({required this.phoneNumber});
@@ -18,7 +18,7 @@ class SendOtpToPhoneEvent extends AuthEvent {
 }
 
 // This event will be triggered when the user enters the OTP and presses the Verify OTP button on the UI.
-class VerifySentOtpEvent extends AuthEvent {
+class VerifySentOtpEvent extends PhoneLoginAuthEvent {
   final String otpCode;
   final String verificationId;
 
@@ -30,20 +30,23 @@ class VerifySentOtpEvent extends AuthEvent {
 }
 
 // This event will be triggered when firebase sends the OTP to the user's phone number.
-class OnPhoneOtpSent extends AuthEvent {
+class OnPhoneOtpSent extends PhoneLoginAuthEvent {
   final String verificationId;
-  final int? token;
+  // final int? token;
   const OnPhoneOtpSent({
     required this.verificationId,
-    required this.token,
+    // required this.token,
   });
 
   @override
-  List<Object> get props => [verificationId];
+  List<Object?> get props => [
+        verificationId,
+        // token,
+      ];
 }
 
 // This event will be triggered when any error occurs while sending the OTP to the user's phone number. This can be due to network issues or firebase's error.
-class OnPhoneAuthErrorEvent extends AuthEvent {
+class OnPhoneAuthErrorEvent extends PhoneLoginAuthEvent {
   final String error;
   const OnPhoneAuthErrorEvent({required this.error});
 
@@ -52,13 +55,16 @@ class OnPhoneAuthErrorEvent extends AuthEvent {
 }
 
 // This event will be triggered when the verification of the OTP is successful.
-class OnPhoneAuthVerificationCompleteEvent extends AuthEvent {
+class OnPhoneAuthVerificationCompleteEvent extends PhoneLoginAuthEvent {
   final AuthCredential credential;
   const OnPhoneAuthVerificationCompleteEvent({
     required this.credential,
   });
+
+  @override
+  List<Object> get props => [credential];
 }
 
-class AuthLogoutEvent extends AuthEvent {}
+class AuthLogoutEvent extends PhoneLoginAuthEvent {}
 
-class CheckAuthStatus extends AuthEvent {}
+class CheckAuthStatus extends PhoneLoginAuthEvent {}

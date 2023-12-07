@@ -1,17 +1,25 @@
 import 'package:app1/data/datasource/product_data_source.dart';
 import 'package:app1/data/datasource/shop_data_source.dart';
 import 'package:app1/data/repo_impl.dart';
+import 'package:app1/domain/repository/phone_auth_repo.dart';
 import 'package:app1/domain/repository/product_repo.dart';
 import 'package:app1/domain/repository/shop_repo.dart';
+import 'package:app1/domain/usecases/auth_usecases/is_logged_in_usecase.dart';
+import 'package:app1/domain/usecases/phone_auth_usecases/sign_out_usecase.dart';
+import 'package:app1/domain/usecases/phone_auth_usecases/verify_otp_usecase.dart';
+import 'package:app1/domain/usecases/phone_auth_usecases/verify_phone_usecase.dart';
 import 'package:app1/domain/usecases/product_usecases/get_product_by_id_usecase.dart';
-import 'package:app1/domain/usecases/product_usecases/get_products_of_shop.dart';
-import 'package:app1/domain/usecases/shop_usecases/get_shop_by_id.dart';
-import 'package:app1/domain/usecases/shop_usecases/get_shops.dart';
+import 'package:app1/domain/usecases/product_usecases/get_products_of_shop_usecase.dart';
+import 'package:app1/domain/usecases/shop_usecases/get_shop_by_id_usecase.dart';
+import 'package:app1/domain/usecases/shop_usecases/get_shops_usecase.dart';
+import 'package:app1/presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
 import 'package:app1/presentation/blocs/product_detail_bloc/product_detail_bloc.dart';
 import 'package:app1/presentation/blocs/product_list_bloc/product_list_bloc.dart';
 import 'package:app1/presentation/blocs/shop_bloc/shop_bloc.dart';
 import 'package:app1/presentation/blocs/shop_detail_bloc/shop_detail_bloc.dart';
+import 'package:app1/presentation/cubit/auth_cubit.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
 import 'core/network/network_info.dart';
@@ -31,7 +39,16 @@ Future<void> init() async {
   locator
       .registerFactory(() => ShopDetailBloc(getShopDetailsUsecase: locator()));
 
+  locator.registerFactory(() => PhoneLoginAuthBloc(
+      signOutUsecase: locator(),
+      verifyOtpUsecase: locator(),
+      verifyPhoneUsecase: locator()));
+
+  locator.registerFactory(() => AuthCubit(isLoggedInUsecase: locator()));
+
   //! UseCases
+
+  //* Products
   locator.registerLazySingleton(
     () => GetProductByIdUsecase(productRepo: locator()),
   );
@@ -39,12 +56,31 @@ Future<void> init() async {
     () => GetProductsOfShopUsecase(productRepo: locator()),
   );
 
+  //* Shop
   locator.registerLazySingleton(
-    () => GetShopDetailsUsecase(shopRepo: locator()),
+    () => GetShopDetailUsecase(shopRepo: locator()),
   );
 
   locator.registerLazySingleton(
     () => GetShopsUsecase(shopRepo: locator()),
+  );
+
+  //* PhoneLogin
+  locator.registerLazySingleton(
+    () => SignOutUsecase(authRepo: locator()),
+  );
+
+  locator.registerLazySingleton(
+    () => VerifyOtpUsecase(authRepo: locator()),
+  );
+
+  locator.registerLazySingleton(
+    () => VerifyPhoneUsecase(authRepo: locator()),
+  );
+
+  //* Auth
+  locator.registerLazySingleton(
+    () => IsLoggedInUsecase(authRepo: locator()),
   );
 
   //! Repositories
@@ -54,6 +90,8 @@ Future<void> init() async {
   locator.registerLazySingleton<ShopRepo>(
       () => ShopRepoImpl(networkInfo: locator(), shopDataSource: locator()));
 
+  locator.registerLazySingleton<AuthRepo>(
+      () => AuthRepoImpl(networkInfo: locator(), firebaseAuth: locator()));
   //! Data Source
   locator.registerLazySingleton<ProductDataSource>(
     () => ProductDataSourceImpl(),
@@ -62,6 +100,9 @@ Future<void> init() async {
   locator.registerLazySingleton<ShopDataSource>(
     () => ShopDataSourceImpl(),
   );
+
+  //! Service
+  locator.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
 
   //! Core
   locator.registerLazySingleton<NetworkInfo>(

@@ -4,14 +4,12 @@ import 'package:app1/core/network/network_info.dart';
 import 'package:app1/core/utils/typedef.dart';
 import 'package:app1/data/datasource/shop_data_source.dart';
 import 'package:app1/domain/repository/shop_repo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../domain/entities/shop.dart';
-import '../models.dart';
 
-class ShopRepoImpl extends ShopRepo {
+class ShopRepoImpl implements ShopRepo {
   final ShopDataSource shopDataSource;
   final NetworkInfo networkInfo;
 
@@ -35,7 +33,7 @@ class ShopRepoImpl extends ShopRepo {
   }
 
   @override
-  ResultFuture<Shop> getShopDetails({required String shopId}) async {
+  ResultFuture<Shop> getShopDetail({required String shopId}) async {
     if (await networkInfo.isConnected) {
       try {
         final shop = await shopDataSource.getShopDetails(shopId);

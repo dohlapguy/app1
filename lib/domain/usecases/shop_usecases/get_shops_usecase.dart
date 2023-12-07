@@ -12,7 +12,7 @@ class GetShopsUsecase implements UseCase<List<Shop>, NoParams> {
   GetShopsUsecase({required this.shopRepo});
 
   @override
-  ResultFuture<List<Shop>> call(NoParams params) {
-    return shopRepo.getShops();
+  ResultFuture<List<Shop>> call(NoParams params) async {
+    return await shopRepo.getShops();
   }
 }

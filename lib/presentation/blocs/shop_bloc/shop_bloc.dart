@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app1/core/error/failure.dart';
-import 'package:app1/domain/usecases/shop_usecases/get_shops.dart';
+import 'package:app1/domain/usecases/shop_usecases/get_shops_usecase.dart';
 import 'package:app1/domain/usecases/usecase.dart';
 
 import 'package:bloc/bloc.dart';

@@ -6,9 +6,9 @@ import 'package:go_router/go_router.dart';
 
 import 'package:app1/presentation/routes/route_constants.dart';
 
-import '../../domain/entities/shop.dart';
-import '../../presentation/blocs/shop_bloc/shop_bloc.dart';
-import '../../constants/app_colors.dart';
+import '../../../domain/entities/shop.dart';
+import '../../blocs/shop_bloc/shop_bloc.dart';
+import '../../../constants/app_colors.dart';
 
 class ShopView extends StatelessWidget {
   const ShopView({super.key});

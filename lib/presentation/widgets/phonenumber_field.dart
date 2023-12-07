@@ -2,7 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
 
 class PhoneNumberWidget extends StatefulWidget {
   const PhoneNumberWidget({Key? key, required this.phoneNumberController})
@@ -72,7 +72,7 @@ class _PhoneNumberWidgetState extends State<PhoneNumberWidget> {
 
   void _sendOtp({required String phoneNumber, required BuildContext context}) {
     final phoneNumberWithCode = "${_countryCode.dialCode}$phoneNumber";
-    context.read<AuthBloc>().add(
+    context.read<PhoneLoginAuthBloc>().add(
           SendOtpToPhoneEvent(
             phoneNumber: phoneNumberWithCode,
           ),

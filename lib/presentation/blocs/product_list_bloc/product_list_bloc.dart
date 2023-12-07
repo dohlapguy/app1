@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:app1/domain/usecases/product_usecases/get_products_of_shop.dart';
+import 'package:app1/domain/usecases/product_usecases/get_products_of_shop_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
@@ -42,8 +42,8 @@ class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
     if (state.hasReachedMax) return;
     try {
       if (state.products.isEmpty) {
-        final products =
-            await getProductsOfShopUsecase.call(Params(shopId: event.shopId));
+        final products = await getProductsOfShopUsecase
+            .call(GetProductsOfShopParams(shopId: event.shopId));
         products.fold(
             (failure) =>
                 emit(const ProductListState(status: ProductStatus.failure)),
@@ -51,7 +51,8 @@ class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
                 status: ProductStatus.success, products: products)));
       } else {
         final products = await getProductsOfShopUsecase.call(
-          Params(shopId: event.shopId, startAfterId: state.products.last.id),
+          GetProductsOfShopParams(
+              shopId: event.shopId, startAfterId: state.products.last.id),
         );
         products.fold(
             (failure) =>
@@ -118,8 +119,8 @@ class ProductListBloc extends Bloc<ProductEvent, ProductListState> {
       RefreshProductList event, Emitter<ProductListState> emit) async {
     emit(state.copyWith(status: ProductStatus.isloading));
     try {
-      final products =
-          await getProductsOfShopUsecase.call(Params(shopId: event.shopId));
+      final products = await getProductsOfShopUsecase
+          .call(GetProductsOfShopParams(shopId: event.shopId));
       products.fold(
           (failure) =>
               emit(const ProductListState(status: ProductStatus.failure)),

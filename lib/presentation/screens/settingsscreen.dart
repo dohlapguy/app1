@@ -1,4 +1,4 @@
-import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -29,8 +29,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: const Text('Account')),
             ElevatedButton(
                 onPressed: () {
-                  BlocProvider.of<AuthBloc>(context).add(AuthLogoutEvent());
-                  context.pushNamed(RouteConstants.homeRoute);
+                  BlocProvider.of<PhoneLoginAuthBloc>(context)
+                      .add(AuthLogoutEvent());
+                  context.pop();
                 },
                 child: const Text('Logout')),
           ],

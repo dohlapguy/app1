@@ -1,9 +1,9 @@
 export 'widgets/otp_field.dart';
 export 'widgets/phonenumber_field.dart';
-export 'widgets/productsview.dart';
-export 'widgets/shopview.dart';
+export 'widgets/product/productsview.dart';
+export 'widgets/shop/shopview.dart';
 export 'widgets/bottom_loader.dart';
-export 'widgets/general_sliver_appbar.dart';
-export 'widgets/general_appbar.dart';
+export 'widgets/appbar/general_sliver_appbar.dart';
+export 'widgets/appbar/general_appbar.dart';
 export 'widgets/image_carousel.dart';
 export 'widgets/text_widgets.dart';

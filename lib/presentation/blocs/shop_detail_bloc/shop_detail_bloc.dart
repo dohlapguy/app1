@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:app1/core/error/failure.dart';
-import 'package:app1/domain/usecases/shop_usecases/get_shop_by_id.dart';
+import 'package:app1/domain/usecases/shop_usecases/get_shop_by_id_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,7 +11,7 @@ part 'shop_detail_event.dart';
 part 'shop_detail_state.dart';
 
 class ShopDetailBloc extends Bloc<ShopDetailEvent, ShopDetailState> {
-  final GetShopDetailsUsecase getShopDetailsUsecase;
+  final GetShopDetailUsecase getShopDetailsUsecase;
 
   ShopDetailBloc({required this.getShopDetailsUsecase})
       : super(ShopDetailInitial()) {
@@ -24,7 +24,8 @@ class ShopDetailBloc extends Bloc<ShopDetailEvent, ShopDetailState> {
   Future<FutureOr<void>> _getShopDetail(
       FetchShopDetails event, Emitter<ShopDetailState> emit) async {
     emit(ShopDetailLoadingState());
-    final shop = await getShopDetailsUsecase(Params(shopId: event.shopId));
+    final shop =
+        await getShopDetailsUsecase(GetShopDetailParams(shopId: event.shopId));
 
     shop.fold(
         (failure) => emit(ShopDetailErrorState(getStringByFailure(failure))),

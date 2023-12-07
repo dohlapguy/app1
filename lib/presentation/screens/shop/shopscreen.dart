@@ -1,8 +1,8 @@
-import '../widgets.dart';
+import '../../widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../presentation/blocs/shop_bloc/shop_bloc.dart';
+import '../../blocs/shop_bloc/shop_bloc.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({super.key});

@@ -9,21 +9,21 @@ import 'package:app1/domain/usecases/usecase.dart';
 import '../../../core/utils/typedef.dart';
 import '../../entities/shop.dart';
 
-class GetShopDetailsUsecase implements UseCase<Shop, Params> {
+class GetShopDetailUsecase implements UseCase<Shop, GetShopDetailParams> {
   final ShopRepo shopRepo;
 
-  GetShopDetailsUsecase({required this.shopRepo});
+  GetShopDetailUsecase({required this.shopRepo});
 
   @override
-  ResultFuture<Shop> call(Params params) {
-    return shopRepo.getShopDetails(shopId: params.shopId);
+  ResultFuture<Shop> call(GetShopDetailParams params) async {
+    return await shopRepo.getShopDetail(shopId: params.shopId);
   }
 }
 
-class Params extends Equatable {
+class GetShopDetailParams extends Equatable {
   final String shopId;
 
-  const Params({required this.shopId});
+  const GetShopDetailParams({required this.shopId});
 
   @override
   List<Object> get props => [shopId];

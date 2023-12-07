@@ -1,9 +1,9 @@
-import '../../constants/app_colors.dart';
-import '../../data/models/productmodel.dart';
+import '../../../constants/app_colors.dart';
+import '../../../data/models/productmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../widgets.dart';
+import '../../widgets.dart';
 
 class SearchResultScreen extends StatefulWidget {
   const SearchResultScreen({super.key, required this.searchString});

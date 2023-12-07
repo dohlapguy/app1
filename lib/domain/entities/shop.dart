@@ -1,4 +1,7 @@
-class Shop {
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
+
+class Shop extends Equatable {
   final String id;
   final String title;
   final String thumbnail;
@@ -7,7 +10,7 @@ class Shop {
   final String address;
   final String pincode;
 
-  Shop({
+  const Shop({
     required this.id,
     required this.title,
     required this.thumbnail,
@@ -16,4 +19,17 @@ class Shop {
     required this.address,
     required this.pincode,
   });
+
+  @override
+  List<Object> get props {
+    return [
+      id,
+      title,
+      thumbnail,
+      rating,
+      registeredDate,
+      address,
+      pincode,
+    ];
+  }
 }

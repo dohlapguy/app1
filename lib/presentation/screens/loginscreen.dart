@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../presentation/blocs/auth_bloc/auth_bloc.dart';
+import '../../presentation/blocs/phone_auth_bloc/phone_auth_bloc.dart';
 import '../widgets/otp_field.dart';
 import '../widgets/phonenumber_field.dart';
 
@@ -35,11 +35,11 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocListener<AuthBloc, AuthState>(
+      body: BlocListener<PhoneLoginAuthBloc, PhoneAuthState>(
         listener: (context, state) {
           // Phone Otp Verified. Send User to Home Screen
           if (state is PhoneAuthVerified) {
-            context.pushReplacementNamed(RouteConstants.homeRoute);
+            context.goNamed(RouteConstants.homeRoute);
           }
 
           //Show error message if any error occurs while verifying phone number and otp code
@@ -51,11 +51,11 @@ class _PhoneLoginScreenState extends State<PhoneLoginScreen> {
             );
           }
         },
-        child: BlocBuilder<AuthBloc, AuthState>(
+        child: BlocBuilder<PhoneLoginAuthBloc, PhoneAuthState>(
           builder: (context, state) {
             if (state is PhoneAuthLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator.adaptive(),
               );
             }
             return Center(

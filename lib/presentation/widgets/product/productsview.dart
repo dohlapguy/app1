@@ -7,8 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../domain/entities/product.dart';
-import '../routes/route_constants.dart';
+import '../../../domain/entities/product.dart';
+import '../../routes/route_constants.dart';
 
 class ProductView extends StatelessWidget {
   const ProductView({

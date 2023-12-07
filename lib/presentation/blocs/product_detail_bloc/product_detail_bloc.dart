@@ -21,8 +21,8 @@ class ProductDetailBloc extends Bloc<ProductDetailEvent, ProductDetailState> {
       FetchProductById event, Emitter<ProductDetailState> emit) async {
     emit(ProductDetailLoading());
     try {
-      final productResult =
-          await getProductByIdUsecase.call(Params(event.productId));
+      final productResult = await getProductByIdUsecase
+          .call(GetProductByIdParams(event.productId));
       productResult.fold(
           (failure) => emit(ProductDetailError(getStringByFailure(failure))),
           (product) => emit(ProductDetailLoaded(product)));
